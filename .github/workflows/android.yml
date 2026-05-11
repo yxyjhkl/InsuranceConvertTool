@@ -45,7 +45,7 @@ jobs:
 
       - name: Prebuild bootstrap
         run: |
-          p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction .
+          p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a
 
       - name: Copy source files
         run: |
