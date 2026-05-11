@@ -21,14 +21,13 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          api-level: 34
+          build-tools: "34.0.0"
 
       - name: Accept Android licenses
         run: |
           yes | ${{ env.ANDROID_HOME }}/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
-
-      - name: Install required SDK components
-        run: |
-          ${{ env.ANDROID_HOME }}/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0"
 
       - name: Install Python dependencies
         run: |
@@ -41,6 +40,7 @@ jobs:
           buildozer android debug
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
+          ANDROID_HOME: ${{ env.ANDROID_HOME }}
           BUILDOZER_WARN_ON_ROOT: 0
 
       - name: Upload APK
