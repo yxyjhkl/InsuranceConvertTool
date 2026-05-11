@@ -28,7 +28,7 @@ jobs:
 
       - name: Install required SDK components
         run: |
-          ${{ env.ANDROID_HOME }}/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0" "ndk;25c"
+          ${{ env.ANDROID_HOME }}/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" "build-tools;34.0.0"
 
       - name: Install Python dependencies
         run: |
