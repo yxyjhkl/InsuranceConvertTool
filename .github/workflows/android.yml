@@ -28,9 +28,7 @@ jobs:
       - name: Accept licenses
         run: |
           mkdir -p $ANDROID_HOME/licenses
-          echo "24333f8a63b682gf2a5b4" > $ANDROID_HOME/licenses/android-sdk-license
-          echo "d56f5187479451eabf01fb18af7dfe6a" >> $ANDROID_HOME/licenses/android-sdk-license
-          echo "e9acab5b5fbb561ffb6e1d3" >> $ANDROID_HOME/licenses/android-sdk-license
+          echo -e "\n24333f8a63b682gf2a5b4\nd56f5187479451eabf01fb18af7dfe6a\ne9acab5b5fbb561ffb6e1d3" > $ANDROID_HOME/licenses/android-sdk-license
 
       - name: Install Python
         uses: actions/setup-python@v5
@@ -40,13 +38,13 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install --upgrade pip
-          pip install buildozer cython
+          pip install buildozer==1.5.0 cython
+          pip install python-for-android
           pip install pdfplumber openpyxl pillow pdfminer.six
 
       - name: Build APK with p4a
         run: |
-          pip install python-for-android
-          p4a apk --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction .
+          p4a apk --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
 
