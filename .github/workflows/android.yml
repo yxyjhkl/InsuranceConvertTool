@@ -25,9 +25,17 @@ jobs:
           api-level: 34
           build-tools: "34.0.0"
 
-      - name: Accept Android licenses
+      - name: Accept licenses
         run: |
-          yes | ${{ env.ANDROID_HOME }}/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null 2>&1 || true
+          mkdir -p $ANDROID_HOME/licenses
+          echo "24333f8a63b682gf2a5b4" > $ANDROID_HOME/licenses/android-sdk-license
+          echo "d56f5187479451eabf01fb18af7dfe6a" >> $ANDROID_HOME/licenses/android-sdk-license
+          echo "e9acab5b5fbb561ffb6e1d3" >> $ANDROID_HOME/licenses/android-sdk-license
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
       - name: Install Python dependencies
         run: |
@@ -35,15 +43,12 @@ jobs:
           pip install buildozer cython
           pip install pdfplumber openpyxl pillow pdfminer.six
 
-      - name: Build APK
+      - name: Build APK with p4a
         run: |
-          export ANDROID_SDK_ROOT=/usr/local/lib/android/sdk
-          export ANDROID_HOME=/usr/local/lib/android/sdk
-          buildozer android debug
+          pip install python-for-android
+          p4a apk --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction .
         env:
-          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
-          ANDROID_HOME: /usr/local/lib/android/sdk
-          BUILDOZER_WARN_ON_ROOT: 0
+          ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
