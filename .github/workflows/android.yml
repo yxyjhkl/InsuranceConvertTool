@@ -41,10 +41,25 @@ jobs:
           pip install buildozer==1.5.0 cython
           pip install python-for-android
           pip install pdfplumber openpyxl pillow pdfminer.six
+          pip install kivy==2.3.1
 
-      - name: Build APK with p4a
+      - name: Prebuild bootstrap
         run: |
-          p4a apk --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a --android-api 34
+          p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction .
+
+      - name: Copy source files
+        run: |
+          cp -r . src/ .buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/jinzunfenhong/
+          cp -r controllers/ .buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/jinzunfenhong/
+          cp -r screens/ .buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/jinzunfenhong/
+          cp -r data/ .buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/jinzunfenhong/
+          cp -r assets/ .buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/jinzunfenhong/
+          cp main.py .buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/jinzunfenhong/
+          cp *.kv .buildozer/android/platform/python-for-android/pythonforandroid/bootstraps/jinzunfenhong/ 2>/dev/null || true
+
+      - name: Build APK
+        run: |
+          p4a apk -- name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a --android-api 34
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
 
