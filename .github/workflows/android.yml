@@ -48,16 +48,15 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install buildozer==1.5.0 cython
-          pip install python-for-android
+          pip install git+https://github.com/kivy/python-for-android.git@master
           pip install pdfplumber openpyxl pillow pdfminer.six
           pip install kivy==2.3.1
 
       - name: Prebuild bootstrap
         run: |
-          p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a --android-api 34
+          p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a --android-api 34 --require-standalone-cache
         env:
-          LIBFFI_INC_BUILD: ""
-          CFLAGS: "-I$HOME/.local/include"
+          P4A_LIBFFI_USE_LOCAL: "1"
 
       - name: Copy source files
         run: |
