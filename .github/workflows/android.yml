@@ -33,8 +33,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libtool libtool-bin autoconf automake m4 help2man pkg-config libffi-dev
-          sudo cp /usr/share/libtool/build-aux/* /usr/share/aclocal/ 2>/dev/null || true
+          sudo apt-get install -y libtool libtool-bin autoconf automake m4 help2man pkg-config
 
       - name: Install Python
         uses: actions/setup-python@v5
@@ -45,19 +44,15 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install buildozer==1.5.0 cython
-          pip install "python-for-android==2026.5.9"
+          pip install "python-for-android==2023.9.16"
           pip install pdfplumber openpyxl pillow pdfminer.six
           pip install kivy==2.3.1
 
       - name: Prebuild bootstrap
         run: |
-          export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
-          export LIBTOOLIZE=glibtoolize
           p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a --android-api 34
         env:
           P4A_PYTHON: "python3.11"
-          LIBFFI_INC_BUILD: "/usr/include"
-          LIBFFI_LIB_BUILD: "/usr/lib/aarch64-linux-gnu"
 
       - name: Copy source files
         run: |
