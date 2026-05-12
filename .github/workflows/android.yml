@@ -7,118 +7,64 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-
-      - name: Accept Android SDK licenses
+      - name: Install system packages
         run: |
-          mkdir -p $ANDROID_HOME/licenses
-          echo "24333f8a63b6825a4c1565231d68653" > $ANDROID_HOME/licenses/android-sdk-license
-          echo "d56f5187479451eabf01fb18af9fc79a" >> $ANDROID_HOME/licenses/android-sdk-license
-          echo "e9acab5b5fbb560ffb6e1d3d5b213d3" >> $ANDROID_HOME/licenses/android-sdk-license
-
-      - name: Install system dependencies
-        run: |
+          sudo dpkg --add-architecture i386
           sudo apt-get update
           sudo apt-get install -y \
-            python3 \
-            python3-pip \
-            python3-dev \
             build-essential \
-            libtool \
-            libtool-bin \
-            autoconf \
-            automake \
-            m4 \
-            pkg-config \
-            zlib1g-dev \
-            libncurses5-dev \
-            libncursesw5-dev \
-            libstdc++6 \
+            ccache \
             git \
+            libncurses5:i386 \
+            libstdc++6:i386 \
+            libgtk2.0-0:i386 \
+            libpangox-1.0-0:i386 \
+            libpangoxft-1.0-0:i386 \
+            libidn11:i386 \
+            python3 \
+            python3-dev \
+            openjdk-17-jdk \
             unzip \
-            wget \
-            ccache
+            zlib1g-dev \
+            zlib1g:i386
 
-      - name: Set environment variables
-        run: |
-          echo "ANDROID_HOME=$GITHUB_WORKSPACE/android-sdk" >> $GITHUB_ENV
-          echo "ANDROID_SDK_ROOT=$GITHUB_WORKSPACE/android-sdk" >> $GITHUB_ENV
-          echo "PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
       - name: Install Python dependencies
         run: |
-          python3 -m pip install --upgrade pip setuptools wheel
-          pip install buildozer==1.5.0 cython pillow
+          python -m pip install --upgrade pip
+          pip install buildozer==1.5.0 cython==0.29.37 pillow==10.3.0
 
-      - name: Install python-for-android
+      - name: Setup Android SDK
         run: |
-          pip install git+https://github.com/kivy/python-for-android.git@master
+          mkdir -p "$HOME/.buildozer/android/platform"
+          wget -q "https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip" -O commandlinetools.zip
+          unzip -q commandlinetools.zip -d "$HOME/.buildozer/android/platform"
+          rm commandlinetools.zip
 
-      - name: Install project dependencies
+      - name: Build APK
         run: |
-          pip install pdfplumber openpyxl kivy
-
-      - name: Prepare build directory
-        run: |
-          mkdir -p .buildozer/android/app
-          cp main.py .buildozer/android/app/
-          cp -r src .buildozer/android/app/
-          cp -r controllers .buildozer/android/app/
-          cp -r data .buildozer/android/app/
-          cp -r screens .buildozer/android/app/
-          cp buildozer.spec .buildozer/android/app/
-          cp -a assets .buildozer/android/app/ 2>/dev/null || true
-          cp icon.png .buildozer/android/app/ 2>/dev/null || true
-          cp logo.png .buildozer/android/app/ 2>/dev/null || true
-
-      - name: Build debug APK
-        if: success()
-        run: |
-          cd .buildozer/android/app
           buildozer android debug
-        env:
-          BUILDOZER_MIN_LOG_LEVEL: 0
-
-      - name: Check APK output
-        run: |
-          echo "=== APK Output Directory ==="
-          ls -lh bin/ 2>/dev/null || echo "No bin/ directory found"
-          echo ""
-          echo "=== Build Directory ==="
-          find . -name "*.apk" 2>/dev/null || echo "No APK found"
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
         if: success()
+        uses: actions/upload-artifact@v4
         with:
           name: jinzunfenhong-debug.apk
-          path: |
-            bin/*.apk
-            .buildozer/android/app/bin/*.apk
-          retention-days: 7
-          ignore-paths: |
-            **/*.pyc
-            **/__pycache__
-            **/*.pyo
+          path: bin/*.apk
 
-      - name: Display error logs on failure
+      - name: Show logs
         if: failure()
         run: |
-          echo "=== Last 100 lines of buildozer log ==="
-          cat .buildozer/android/app/.buildozer/log 2>/dev/null | tail -100 || echo "No buildozer log found"
-          echo ""
-          echo "=== Android SDK Contents ==="
-          ls -la $ANDROID_HOME/ 2>/dev/null || echo "SDK not found"
+          ls -la
+          ls -la bin/ 2>/dev/null || true
+          cat .buildozer/log 2>/dev/null | tail -300 || true
