@@ -33,12 +33,17 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libtool libtool-bin autoconf automake m4 help2man pkg-config
+          sudo apt-get install -y libtool libtool-bin autoconf automake m4 help2man pkg-config aclocal libffi-dev
+          export ACLOCAL_PATH=/usr/share/aclocal
 
       - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Install libffi system package
+        run: |
+          pip install cffi && pip install pycparser
 
       - name: Install Python dependencies
         run: |
@@ -50,7 +55,9 @@ jobs:
 
       - name: Prebuild bootstrap
         run: |
-          p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a --android-api 34
+          p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a --android-api 34 --with-ffpy
+        env:
+          LIBFFI_INC_BUILD: ""
 
       - name: Copy source files
         run: |
