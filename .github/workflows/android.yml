@@ -23,14 +23,16 @@ jobs:
         run: |
           export ANDROID_HOME=/usr/local/lib/android/sdk
           
-          # Remove old tools that require JAXB, use cmdline-tools only
-          rm -rf $ANDROID_HOME/tools
-          
-          # Also remove newly downloaded cmdline-tools 16.0 if exists
+          # Remove cmdline-tools 16.0 if exists (requires JDK 17)
           rm -rf $ANDROID_HOME/cmdline-tools/16.0
           
-          # Verify cmdline-tools 12.0 exists
+          # Create symlink so p4a can find tools in expected location
+          rm -rf $ANDROID_HOME/tools
+          ln -sf $ANDROID_HOME/cmdline-tools/latest $ANDROID_HOME/tools
+          
+          # Verify structure
           ls -la $ANDROID_HOME/cmdline-tools/
+          ls -la $ANDROID_HOME/tools/bin/
 
       - name: Setup Android SDK
         run: |
