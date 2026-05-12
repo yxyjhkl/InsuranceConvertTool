@@ -16,18 +16,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '11'
           distribution: 'temurin'
-
-      - name: Install JAXB for Java 17
-        run: |
-          wget -q https://repo1.maven.org/maven2/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar -O /tmp/jaxb-api.jar
-          wget -q https://repo1.maven.org/maven2/org/glassfish/jaxb/jaxb-runtime/2.3.1/jaxb-runtime-2.3.1.jar -O /tmp/jaxb-runtime.jar
-          wget -q https://repo1.maven.org/maven2/org/glassfish/jaxb/txw2/2.3.1/txw2-2.3.1.jar -O /tmp/txw2.jar
-          wget -q https://repo1.maven.org/maven2/com/sun/istack/istack-commons-runtime/3.0.7/istack-commons-runtime-3.0.7.jar -O /tmp/istack-commons-runtime.jar
-          wget -q https://repo1.maven.org/maven2/org/jvnet/staxex/stax-ex/1.8/stax-ex-1.8.jar -O /tmp/stax-ex.jar
-          wget -q https://repo1.maven.org/maven2/javax/xml/stream/StaxAPI/1.0-2/StaxAPI-1.0-2.jar -O /tmp/StaxAPI.jar
-          sudo cp /tmp/*.jar $ANDROID_HOME/tools/lib/
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
