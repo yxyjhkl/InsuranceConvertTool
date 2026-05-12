@@ -61,7 +61,8 @@ def export_to_excel(data: List[Dict], output_path: str, title: str = '') -> bool
         是否成功
     """
     try:
-        from src.exporter import ExcelExporter, HEADERS as headers14
+        from src.exporter import ExcelExporter
+        from src.calculator import HEADERS as headers14
 
         headers = headers14 if len(headers14) == 14 else [
             '保单年度', '年龄', '期交保费', '累计保费', '身故总利益',

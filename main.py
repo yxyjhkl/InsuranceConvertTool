@@ -3,8 +3,6 @@
 金尊分红保险利益演示系统 - Android版 (Kivy)
 入口文件
 """
-from __future__ import annotations
-
 import os, sys, traceback, tempfile, logging
 from datetime import datetime
 
@@ -623,10 +621,36 @@ class DetailScreen(Screen):
 
             for idx, row in enumerate(calc_data):
                 bg = (0.95, 0.95, 0.95, 1) if idx % 2 == 0 else (1, 1, 1, 1)
-                for key in ['policy_year', 'age']:
-                    v = row.get(key, '')
+
+                ordered_keys = [
+                    'policy_year', 'age', 'premium', 'total_premium',
+                    'death_benefit', 'cash_value', 'growth_rate',
+                    'current_dividend_cash', 'accum_dividend_cash',
+                    'demo_survival', 'demo_rate',
+                    'expected_survival', 'expected_rate',
+                    'expected_simple_rate'
+                ]
+
+                for key in ordered_keys:
+                    val = row.get(key, '')
+
+                    if val is None:
+                        text = '--'
+                    elif key in ('growth_rate', 'demo_rate', 'expected_rate', 'expected_simple_rate'):
+                        try:
+                            text = f'{float(val)*100:.2f}%'
+                        except Exception:
+                            text = str(val)
+                    elif key in ('policy_year', 'age'):
+                        text = str(int(val)) if val is not None and val != '' else ''
+                    else:
+                        try:
+                            text = f'{int(round(float(val))):,}'
+                        except Exception:
+                            text = str(val)
+
                     lbl = Label(
-                        text=str(int(v)) if v is not None else '',
+                        text=text,
                         font_size=sp(8), color=(0.1, 0.1, 0.1, 1),
                         size_hint_x=None, width=dp(60), halign='center',
                         valign='middle', shorten=True
@@ -635,42 +659,8 @@ class DetailScreen(Screen):
                     with lbl.canvas.before:
                         KvColor(*bg)
                         Rectangle(pos=lbl.pos, size=lbl.size)
-                    lbl.bind(
-                        pos=lambda i,l=b: self._row_bg(l),
-                        size=lambda i,l=b: self._row_bg(l)
-                    )
                     lbl._bg = bg
                     self.data_grid.add_widget(lbl)
-
-                val_keys = ['premium', 'total_premium', 'death_benefit',
-                           'cash_value', 'current_dividend_cash',
-                           'accum_dividend_cash', 'demo_survival',
-                           'expected_survival']
-                rate_keys_map = {'growth_rate': 6, 'demo_rate': 9,
-                                'expected_rate': 11, 'expected_simple_rate': 12}
-
-                for klist in [val_keys, list(rate_keys_map.keys())]:
-                    for key in (klist if isinstance(klist, list) else [klist]):
-                        val = row.get(key, '')
-                        if val is None:
-                            text = '--'
-                        elif key in rate_keys_map:
-                            text = f'{float(val)*100:.2f}%'
-                        else:
-                            try:
-                                text = f'{int(round(float(val))):,}'
-                            except Exception:
-                                text = str(val)
-                        lbl = Label(
-                            text=text,
-                            font_size=sp(8), color=(0.1, 0.1, 0.1, 1),
-                            size_hint_x=None, width=dp(60), halign='center',
-                            valign='middle', shorten=True
-                        )
-                        with lbl.canvas.before:
-                            KvColor(*bg)
-                            Rectangle(pos=lbl.pos, size=lbl.size)
-                        self.data_grid.add_widget(lbl)
 
         except Exception as e:
             logger.error(f"刷新表格失败: {e}\n{traceback.format_exc()}")

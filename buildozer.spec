@@ -10,17 +10,15 @@ source.include_patterns = data/*,assets/*
 
 version = 2.0.0
 
-requirements = python3,kivy==2.3.1,pdfplumber,pdfminer.six,openpyxl,pillow
-requirements.source.kivy = kivy
+requirements = python3,kivy,pdfplumber,pdfminer.six,openpyxl,pillow
 
 orientation = portrait
 fullscreen = 1
 
 android.permissions = READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE
-android.api = 34
+android.api = 31
 android.minapi = 24
-android.sdk = 34
-android.buildozer = 1.5.0
+android.ndk = 25c
 
 android.arch = arm64-v8a
 android.allow_backup = True

@@ -13,10 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK (Java 8)
+      - name: Set up JDK (Java 11 - compatible with cmdline-tools)
         uses: actions/setup-java@v4
         with:
-          java-version: '8'
+          java-version: '11'
           distribution: 'temurin'
 
       - name: Fix Android SDK tools
@@ -26,13 +26,12 @@ jobs:
           # Remove cmdline-tools 16.0 if exists (requires JDK 17)
           rm -rf $ANDROID_HOME/cmdline-tools/16.0
           
-          # Create symlink so p4a can find tools in expected location
+          # Verify old cmdline-tools 12.0 is used
+          ls -la $ANDROID_HOME/cmdline-tools/
+          
+          # Create symlink so p4a can find tools
           rm -rf $ANDROID_HOME/tools
           ln -sf $ANDROID_HOME/cmdline-tools/latest $ANDROID_HOME/tools
-          
-          # Verify structure
-          ls -la $ANDROID_HOME/cmdline-tools/
-          ls -la $ANDROID_HOME/tools/bin/
 
       - name: Setup Android SDK
         run: |

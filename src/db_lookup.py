@@ -16,11 +16,12 @@ def _get_db_path():
     if getattr(sys, 'frozen', False):
         base_dir = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
     else:
-        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        base_dir = os.path.dirname(os.path.abspath(__file__))
 
     candidates = [
-        os.path.join(base_dir, 'data', 'insurance_db_full.json'),
         os.path.join(base_dir, 'insurance_db_full.json'),
+        os.path.join(base_dir, 'data', 'insurance_db_full.json'),
+        os.path.join(os.path.dirname(base_dir), 'insurance_db_full.json'),
     ]
     for p in candidates:
         if os.path.exists(p):

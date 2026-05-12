@@ -78,9 +78,9 @@ class InsuranceCalculator:
             if total_premium and not already_scaled:
                 total_premium = total_premium * multiplier
 
-            guaranteed = row.get('guaranteed_survival') or row.get('guaranteed') or 0
-            demo_survival = row.get('demo_survival') or 0
-            death_base = row.get('death_benefit') or row.get('death_base') or 0
+            guaranteed = row.get('guaranteed_survival') or row.get('guaranteed') or row.get('low') or 0
+            demo_survival = row.get('demo_survival') or row.get('mid') or 0
+            death_base = row.get('death_benefit') or row.get('death_base') or row.get('death') or 0
 
             if not already_scaled:
                 guaranteed = guaranteed * multiplier
