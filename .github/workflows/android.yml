@@ -30,6 +30,11 @@ jobs:
           mkdir -p $ANDROID_HOME/licenses
           echo -e "\n24333f8a63b682gf2a5b4\nd56f5187479451eabf01fb18af7dfe6a\ne9acab5b5fbb561ffb6e1d3" > $ANDROID_HOME/licenses/android-sdk-license
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libtool libtool-bin autoconf automake
+
       - name: Install Python
         uses: actions/setup-python@v5
         with:
