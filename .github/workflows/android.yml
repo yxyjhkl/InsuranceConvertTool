@@ -33,8 +33,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libtool libtool-bin autoconf automake m4 help2man pkg-config aclocal libffi-dev
-          export ACLOCAL_PATH=/usr/share/aclocal
+          sudo apt-get install -y libtool libtool-bin autoconf automake m4 help2man pkg-config libffi-dev
 
       - name: Install Python
         uses: actions/setup-python@v5
