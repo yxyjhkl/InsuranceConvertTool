@@ -1,0 +1,47 @@
+{
+  "M": {
+    "8": {
+      "30_M_10W_8N": {
+        "premium": 100000,
+        "data": [
+          {"year": 1, "age": 30, "premium": 100000, "total_premium": 100000, "death": 1000000, "low": 105000, "mid": 110000, "high": 115000, "current_dividend": 5000, "accum_dividend": 5000},
+          {"year": 2, "age": 31, "premium": 100000, "total_premium": 200000, "death": 1000000, "low": 215000, "mid": 225000, "high": 235000, "current_dividend": 6000, "accum_dividend": 11000},
+          {"year": 3, "age": 32, "premium": 100000, "total_premium": 300000, "death": 1000000, "low": 330000, "mid": 345000, "high": 360000, "current_dividend": 7000, "accum_dividend": 18000},
+          {"year": 4, "age": 33, "premium": 100000, "total_premium": 400000, "death": 1000000, "low": 450000, "mid": 470000, "high": 490000, "current_dividend": 8000, "accum_dividend": 26000},
+          {"year": 5, "age": 34, "premium": 100000, "total_premium": 500000, "death": 1000000, "low": 575000, "mid": 600000, "high": 625000, "current_dividend": 9000, "accum_dividend": 35000},
+          {"year": 6, "age": 35, "premium": 100000, "total_premium": 600000, "death": 1000000, "low": 705000, "mid": 735000, "high": 765000, "current_dividend": 10000, "accum_dividend": 45000},
+          {"year": 7, "age": 36, "premium": 100000, "total_premium": 700000, "death": 1000000, "low": 840000, "mid": 875000, "high": 910000, "current_dividend": 11000, "accum_dividend": 56000},
+          {"year": 8, "age": 37, "premium": 100000, "total_premium": 800000, "death": 1000000, "low": 980000, "mid": 1020000, "high": 1060000, "current_dividend": 12000, "accum_dividend": 68000},
+          {"year": 9, "age": 38, "premium": 0, "total_premium": 800000, "death": 1000000, "low": 1125000, "mid": 1170000, "high": 1215000, "current_dividend": 13000, "accum_dividend": 81000},
+          {"year": 10, "age": 39, "premium": 0, "total_premium": 800000, "death": 1000000, "low": 1275000, "mid": 1325000, "high": 1375000, "current_dividend": 14000, "accum_dividend": 95000}
+        ]
+      }
+    }
+  },
+  "F": {
+    "8": {
+      "30_F_10W_8N": {
+        "premium": 100000,
+        "data": [
+          {"year": 1, "age": 30, "premium": 100000, "total_premium": 100000, "death": 1000000, "low": 108000, "mid": 113000, "high": 118000, "current_dividend": 5500, "accum_dividend": 5500},
+          {"year": 2, "age": 31, "premium": 100000, "total_premium": 200000, "death": 1000000, "low": 220000, "mid": 230000, "high": 240000, "current_dividend": 6500, "accum_dividend": 12000},
+          {"year": 3, "age": 32, "premium": 100000, "total_premium": 300000, "death": 1000000, "low": 337000, "mid": 352000, "high": 367000, "current_dividend": 7500, "accum_dividend": 19500},
+          {"year": 4, "age": 33, "premium": 100000, "total_premium": 400000, "death": 1000000, "low": 459000, "mid": 479000, "high": 499000, "current_dividend": 8500, "accum_dividend": 28000},
+          {"year": 5, "age": 34, "premium": 100000, "total_premium": 500000, "death": 1000000, "low": 586000, "mid": 611000, "high": 636000, "current_dividend": 9500, "accum_dividend": 37500},
+          {"year": 6, "age": 35, "premium": 100000, "total_premium": 600000, "death": 1000000, "low": 718000, "mid": 748000, "high": 778000, "current_dividend": 10500, "accum_dividend": 48000},
+          {"year": 7, "age": 36, "premium": 100000, "total_premium": 700000, "death": 1000000, "low": 855000, "mid": 890000, "high": 925000, "current_dividend": 11500, "accum_dividend": 59500},
+          {"year": 8, "age": 37, "premium": 100000, "total_premium": 800000, "death": 1000000, "low": 997000, "mid": 1037000, "high": 1077000, "current_dividend": 12500, "accum_dividend": 72000},
+          {"year": 9, "age": 38, "premium": 0, "total_premium": 800000, "death": 1000000, "low": 1144000, "mid": 1189000, "high": 1234000, "current_dividend": 13500, "accum_dividend": 85500},
+          {"year": 10, "age": 39, "premium": 0, "total_premium": 800000, "death": 1000000, "low": 1296000, "mid": 1346000, "high": 1396000, "current_dividend": 14500, "accum_dividend": 100000}
+        ]
+      }
+    }
+  },
+  "meta": {
+    "source_count": 2,
+    "premiums": [10],
+    "payments": [8],
+    "max_age_male": 39,
+    "max_age_female": 39
+  }
+}
