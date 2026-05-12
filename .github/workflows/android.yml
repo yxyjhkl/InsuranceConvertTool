@@ -44,7 +44,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install buildozer==1.5.0 cython
-          pip install "python-for-android==2023.5.21"
+          pip install "python-for-android==2022.3.13"
           pip install pdfplumber openpyxl pillow pdfminer.six
           pip install kivy==2.3.1
 
