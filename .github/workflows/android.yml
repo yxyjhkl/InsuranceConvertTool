@@ -44,15 +44,16 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install buildozer==1.5.0 cython
-          pip install "python-for-android==2022.9.4"
+          pip install "python-for-android==2023.5.21"
           pip install pdfplumber openpyxl pillow pdfminer.six
           pip install kivy==2.3.1
 
       - name: Prebuild bootstrap
         run: |
-          p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a --android-api 34 --bootstrap sdl2 --python 3.11
+          p4a create --name jinzunfenhong --package com.insurance.jinzunfenhong --version 2.0.0 --direction . --arch arm64-v8a --android-api 34
         env:
           P4A_PYTHON: "python3.11"
+          ANDROIDSDK: "$ANDROID_HOME"
 
       - name: Copy source files
         run: |
