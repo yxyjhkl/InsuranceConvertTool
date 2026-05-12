@@ -19,24 +19,21 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Fix Android SDK tools
-        run: |
-          export ANDROID_HOME=/usr/local/lib/android/sdk
-          
-          # Remove cmdline-tools 16.0 if exists (requires JDK 17)
-          rm -rf $ANDROID_HOME/cmdline-tools/16.0
-          
-          # Verify old cmdline-tools 12.0 is used
-          ls -la $ANDROID_HOME/cmdline-tools/
-          
-          # Create symlink so p4a can find tools
-          rm -rf $ANDROID_HOME/tools
-          ln -sf $ANDROID_HOME/cmdline-tools/latest $ANDROID_HOME/tools
+      - name: Setup Android SDK 
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: '12.0'
+        env:
+          SKIP_JDK_VERSION_CHECK: "true"
 
-      - name: Setup Android SDK
+      - name: Configure Android SDK and create tools symlink
         run: |
           export ANDROID_HOME=/usr/local/lib/android/sdk
           export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+          
+          # Create tools symlink for p4a
+          rm -rf $ANDROID_HOME/tools
+          ln -sf $ANDROID_HOME/cmdline-tools/latest $ANDROID_HOME/tools
           
           # Accept licenses
           mkdir -p $ANDROID_HOME/licenses
@@ -44,7 +41,6 @@ jobs:
           
           echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
           echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> $GITHUB_ENV
-          echo "PATH=$PATH" >> $GITHUB_ENV
 
       - name: Install system dependencies
         run: |
