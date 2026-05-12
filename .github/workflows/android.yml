@@ -33,9 +33,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libtool libtool-bin autoconf automake m4 help2man pkg-config libffi-dev
-          export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
-          export LIBTOOLIZE=glibtoolize
+          sudo apt-get install -y libtool libtool-bin autoconf automake m4 help2man pkg-config
 
       - name: Install Python
         uses: actions/setup-python@v5
@@ -45,14 +43,6 @@ jobs:
       - name: Install libffi system package
         run: |
           pip install cffi && pip install pycparser
-          pip install cryptography
-
-      - name: Setup libtool macros
-        run: |
-          mkdir -p /tmp/m4
-          cp /usr/share/aclocal/*.m4 /tmp/m4/ 2>/dev/null || true
-          sudo cp /usr/share/aclocal/*.m4 /tmp/m4/ 2>/dev/null || true
-          sudo aclocal -I /usr/share/aclocal -I /usr/share/libtool/m4
 
       - name: Install Python dependencies
         run: |
